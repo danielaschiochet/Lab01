@@ -31,15 +31,73 @@ public class FXMLController {
 
     @FXML
     private Button btnReset;
+    
+    @FXML
+    private Button btnCancella;
+    
+    @FXML
+    private TextArea txtPerformance;
 
     @FXML
     void doInsert(ActionEvent event) {
     	// TODO
+    	String parola = txtParola.getText();
+    	
+    	double tempoEsecuzioneStart = System.nanoTime();
+    	
+    	elenco.addParola(parola);
+    	
+    	double tempoEsecuzioneEnd = System.nanoTime();
+    	
+    	this.txtParola.clear();
+    	this.txtResult.clear();
+    	this.txtPerformance.clear();
+    	
+    	String result="";
+    	
+    	for(String s: elenco.getElenco()) {
+    		result = result + s + "\n";
+    	}
+    	
+    	this.txtResult.setText(result);
+    	this.txtPerformance.setText("Tempo impiegato: "+(tempoEsecuzioneEnd - tempoEsecuzioneStart)/1e9+" secondi");
     }
 
     @FXML
     void doReset(ActionEvent event) {
     	// TODO
+    	this.txtParola.clear();
+    	this.txtResult.clear();
+    	this.txtPerformance.clear();
+    	double tempoEsecuzioneStart = System.nanoTime();
+    	this.elenco.reset();
+    	double tempoEsecuzioneEnd = System.nanoTime();
+    	this.txtPerformance.setText("Tempo impiegato: "+(tempoEsecuzioneEnd - tempoEsecuzioneStart)/1e9+" secondi");
+    }
+    
+    @FXML
+    void doCancella(ActionEvent event) {
+    	
+    	String parolaDaRimuovere = txtResult.getSelectedText();
+    	
+    	double tempoEsecuzioneStart = System.nanoTime();
+    	
+    	this.elenco.cancella(parolaDaRimuovere);
+    	
+    	double tempoEsecuzioneEnd = System.nanoTime();
+    	
+    	this.txtParola.clear();
+    	this.txtResult.clear();
+    	this.txtPerformance.clear();
+    	
+    	String result = "";
+    	
+    	for(String s: elenco.getElenco()) {
+    		result = result + s + "\n";
+    	}
+    	
+    	this.txtResult.setText(result);
+    	this.txtPerformance.setText("Tempo impiegato: "+(tempoEsecuzioneEnd - tempoEsecuzioneStart)/1e9+" secondi");
     }
 
     @FXML
